@@ -1,9 +1,11 @@
-PREFIX?=/usr/X11R6
-CFLAGS?=-Os -pedantic -Wall
+.POSIX:
+.SUFFIXES:
+CC	= cc
+CFLAGS	= -Os -pedantic -Wall
+LDLIBS	= -lX11
 
 all:
-	$(CC) $(CFLAGS) -I$(PREFIX)/include tinywm.c -L$(PREFIX)/lib -lX11 -o tinywm
-
+	$(CC) $(CFLAGS) $(LDFLAGS) tinywm.c  -o tinywm $(LDLIBS)
 clean:
 	rm -f tinywm
 
