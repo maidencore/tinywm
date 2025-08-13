@@ -9,6 +9,17 @@ files
 - `annotated.c`: nuked from orbit
 - `tinywm.py`:   vanished into the aether
 
+configuring
+-----------
+TinyWM is configured by editing its source code. in this way, configuring of
+the program is indistinguishable from modification. however, the internal
+variable `MOD_KEY` can be configured at compile-time with a macro definition:
+
+    	make DEFINE="-D MOD_KEY=Mod4Mask"
+
+further information can be found at 
+<https://dwm.suckless.org/customisation/windows_key/>.
+
 acknowledgements; license
 -------------------------
 as from the original `README`:

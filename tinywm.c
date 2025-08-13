@@ -1,5 +1,9 @@
 #include <X11/Xlib.h>
 
+#ifndef MOD_KEY
+#define MOD_KEY Mod1Mask
+#endif
+
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int main(void) {
@@ -8,14 +12,14 @@ int main(void) {
 	XButtonEvent start;
 	XEvent ev;
 
-	if(!(dpy = XOpenDisplay(0x0))) return 1;
+	if(!(dpy = XOpenDisplay(0x0))) { return 1; }
 
-	XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("F1")), Mod1Mask,
+	XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("F1")), MOD_KEY,
 		DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-	XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
+	XGrabButton(dpy, 1, MOD_KEY, DefaultRootWindow(dpy), True,
 		ButtonPressMask|ButtonReleaseMask|PointerMotionMask,
 		GrabModeAsync, GrabModeAsync, None, None);
-	XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
+	XGrabButton(dpy, 3, MOD_KEY, DefaultRootWindow(dpy), True,
 		ButtonPressMask|ButtonReleaseMask|PointerMotionMask,
 		GrabModeAsync, GrabModeAsync, None, None);
 
