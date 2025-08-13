@@ -20,13 +20,13 @@ int main(void) {
 		GrabModeAsync, GrabModeAsync, None, None);
 
 	start.subwindow = None;
-	for(;;)
-	{
+	for (;;) {
 		XNextEvent(dpy, &ev);
 		if(ev.type == KeyPress && ev.xkey.subwindow != None) {
 			XRaiseWindow(dpy, ev.xkey.subwindow);
 		}
-		else if(ev.type == ButtonPress && ev.xbutton.subwindow != None) {
+		else if(ev.type == ButtonPress &&
+				ev.xbutton.subwindow != None) {
 			XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
 			start = ev.xbutton;
 		}
@@ -34,10 +34,12 @@ int main(void) {
 			int xdiff = ev.xbutton.x_root - start.x_root;
 			int ydiff = ev.xbutton.y_root - start.y_root;
 			XMoveResizeWindow(dpy, start.subwindow,
-				attr.x + (start.button==1 ? xdiff : 0),
-				attr.y + (start.button==1 ? ydiff : 0),
-				MAX(1, attr.width + (start.button==3 ? xdiff : 0)),
-				MAX(1, attr.height + (start.button==3 ? ydiff : 0)));
+				attr.x + (start.button == 1 ? xdiff : 0),
+				attr.y + (start.button == 1 ? ydiff : 0),
+				MAX(1, attr.width +
+					(start.button == 3 ? xdiff : 0)),
+				MAX(1, attr.height +
+					(start.button == 3 ? ydiff : 0)));
 		}
 		else if(ev.type == ButtonRelease) {
 			start.subwindow = None;
