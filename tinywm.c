@@ -22,15 +22,18 @@ int main(void) {
 	start.subwindow = None;
 	for (;;) {
 		XNextEvent(dpy, &ev);
-		if(ev.type == KeyPress && ev.xkey.subwindow != None) {
+		switch (ev.type) {
+		case KeyPress:
+			if (ev.xkey.subwindow == None) { break; }
 			XRaiseWindow(dpy, ev.xkey.subwindow);
-		}
-		else if(ev.type == ButtonPress &&
-				ev.xbutton.subwindow != None) {
+			break;
+		case ButtonPress:
+			if (ev.xbutton.subwindow == None) { break; }
 			XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
 			start = ev.xbutton;
-		}
-		else if(ev.type == MotionNotify && start.subwindow != None) {
+			break;
+		case MotionNotify:
+			if (start.subwindow == None) { break; }
 			int xdiff = ev.xbutton.x_root - start.x_root;
 			int ydiff = ev.xbutton.y_root - start.y_root;
 			XMoveResizeWindow(dpy, start.subwindow,
@@ -40,9 +43,10 @@ int main(void) {
 					(start.button == 3 ? xdiff : 0)),
 				MAX(1, attr.height +
 					(start.button == 3 ? ydiff : 0)));
-		}
-		else if(ev.type == ButtonRelease) {
+			break;
+		case ButtonRelease:
 			start.subwindow = None;
+			break;
 		}
 	}
 }
