@@ -1,8 +1,7 @@
 #include <X11/Xlib.h>
 
-#ifndef MOD_KEY
 #define MOD_KEY Mod1Mask
-#endif
+#include "config.h"
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
@@ -12,7 +11,7 @@ int main(void) {
 	XButtonEvent start;
 	XEvent ev;
 
-	if(!(dpy = XOpenDisplay(0x0))) { return 1; }
+	if (!(dpy = XOpenDisplay(0x0))) { return 1; }
 
 	XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("F1")), MOD_KEY,
 		DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
