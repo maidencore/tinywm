@@ -1,7 +1,6 @@
 #include <X11/Xlib.h>
 
 #define MOD_KEY Mod1Mask
-#include "config.h"
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 

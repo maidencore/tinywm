@@ -6,25 +6,13 @@ files
 -----
 - `Makefile`:    highly advanced build system
 - `tinywm.c`:    the code
-- `config.h`:    macro redefinition (optional)
 - `annotated.c`: nuked from orbit
 - `tinywm.py`:   vanished into the aether
 
 configuring
 -----------
 TinyWM is configured by editing its source code. in this way, configuring of
-the program is indistinguishable from modification. however, some internal
-macros can be redefined in the optional file `config.h`, as such:
-
-    $ cat > config.h << .
-    #undef MOD_KEY
-    #define MOD_KEY Mod4Mask
-    .
-    $ make
-
-if `config.h` does not exist, `make` will create it before compilation. macros
-should be undefined before defining them again, but the default compilation
-flags do not enforce this.
+the program is indistinguishable from modification. this is by design.
 
 acknowledgements; license
 -------------------------
