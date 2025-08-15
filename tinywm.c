@@ -26,11 +26,13 @@ int main(void) {
 		XNextEvent(dpy, &ev);
 		switch (ev.type) {
 		case KeyPress:
-			if (ev.xkey.subwindow == None) { break; }
-			XRaiseWindow(dpy, ev.xkey.subwindow);
+			XSetInputFocus(dpy, (ev.xkey.subwindow == None ?
+					PointerRoot : ev.xkey.subwindow),
+				RevertToPointerRoot, CurrentTime);
 			break;
 		case ButtonPress:
 			if (ev.xbutton.subwindow == None) { break; }
+			XRaiseWindow(dpy, ev.xbutton.subwindow);
 			XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
 			start = ev.xbutton;
 			break;
