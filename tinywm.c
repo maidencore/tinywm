@@ -12,10 +12,10 @@ int main(void) {
 
 	if (!(dpy = XOpenDisplay(0x0))) { return 1; }
 
-	XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("F1")), MOD_KEY,
-		DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+	XGrabButton(dpy, 1, AnyModifier, DefaultRootWindow(dpy), True,
+		ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
 	XGrabButton(dpy, 1, MOD_KEY, DefaultRootWindow(dpy), True,
-		ButtonPressMask|ButtonReleaseMask|PointerMotionMask,
+		ButtonReleaseMask|PointerMotionMask,
 		GrabModeAsync, GrabModeAsync, None, None);
 	XGrabButton(dpy, 3, MOD_KEY, DefaultRootWindow(dpy), True,
 		ButtonPressMask|ButtonReleaseMask|PointerMotionMask,
@@ -25,12 +25,15 @@ int main(void) {
 	for (;;) {
 		XNextEvent(dpy, &ev);
 		switch (ev.type) {
-		case KeyPress:
-			XSetInputFocus(dpy, (ev.xkey.subwindow == None ?
-					PointerRoot : ev.xkey.subwindow),
-				RevertToPointerRoot, CurrentTime);
-			break;
 		case ButtonPress:
+			if (ev.xbutton.state != MOD_KEY) {
+				XSetInputFocus(dpy,
+					(ev.xbutton.subwindow == None ?
+					PointerRoot : ev.xbutton.subwindow),
+					RevertToPointerRoot, CurrentTime);
+				XAllowEvents(dpy, ReplayPointer,
+					ev.xbutton.time);
+			}
 			if (ev.xbutton.subwindow == None) { break; }
 			XRaiseWindow(dpy, ev.xbutton.subwindow);
 			XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
